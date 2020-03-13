@@ -8,9 +8,9 @@ const ProductForm = () => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/api/product/create", {title, price, description})
+        axios.post("http://localhost:8000/api/products/create", {title, price, description})
             .then(res => console.log("Response: ", res))
-            .catch(err => console.log("Error: ", err))
+            .catch(err => console.log("Error: ", err));
         setTitle("");
         setPrice(0);
         setDescription("");
@@ -22,21 +22,24 @@ const ProductForm = () => {
                 <label>Title: </label>
                 <input className="form-control" 
                     type="text" 
-                    onChange={e => {setTitle(e.target.value)}} />
+                    onChange={e => {setTitle(e.target.value)}}
+                    value={title} />
             </div>
             <div className="form-group">
                 <label>Price: </label>
                 <input className="form-control" 
                     type="number" 
+                    value={price}
                     onChange={e => {setPrice(e.target.value)}} />
             </div>
             <div className="form-group">
                 <label>Description: </label>
                 <input className="form-control" 
                     type="text" 
+                    value={description}
                     onChange={e => {setDescription(e.target.value)}} />
             </div>
-            <input className="btn btn-dark" type="submit" value="Create" />
+            <input className="btn btn-danger" type="submit" value="Create" />
         </form>
     )
 }
