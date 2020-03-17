@@ -6,9 +6,15 @@ const Delete = ({productId, removeFromDom}) => {
 
     const deleteHandler = () => {
         axios.delete(`http://localhost:8000/api/products/delete/${productId}`)
-            .then(res => removeFromDom(productId))
+            .then(res => {
+                if(removeFromDom){
+                    removeFromDom(productId);
+                }
+                else{
+                    navigate('/');
+                }
+            })
             .catch(err => console.log(err))
-        navigate('/');
     }
     return(
         <button className="btn btn-danger" onClick={deleteHandler}>Delete</button>

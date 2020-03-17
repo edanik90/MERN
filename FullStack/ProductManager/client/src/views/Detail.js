@@ -3,7 +3,7 @@ import axios from 'axios';
 import { navigate } from '@reach/router';
 import Delete from '../components/Delete';
 
-const Detail = ({removeFromDom, id}) => {
+const Detail = ({id}) => {
     const [loaded, setLoaded] = useState(false);
     const style = {
         fontWeight: 'bold'
@@ -28,7 +28,7 @@ const Detail = ({removeFromDom, id}) => {
             <h4><span style={style}>Price:</span> ${product.price}</h4>
             <h4><span style={style}>Description:</span> {product.description}</h4>
             <button className="btn btn-dark" onClick={onEditHandler}>Edit</button>
-            <Delete productId={product._id} removeFromDom={removeFromDom}/>
+            <Delete productId={product._id} removeFromDom={null}/>
         </div>
     )
 }
