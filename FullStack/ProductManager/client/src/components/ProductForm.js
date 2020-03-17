@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-const ProductForm = () => {
+const ProductForm = ({initTitle, initPrice, initDescription, buttonName, buttonClass, onSubmitProp}) => {
     const style = {
         color: 'red'
     }
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState();
-    const [description, setDescription] = useState("");
-    // const [query, setQuery] = useState({});
+    const [title, setTitle] = useState(initTitle);
+    const [price, setPrice] = useState(initPrice);
+    const [description, setDescription] = useState(initDescription);
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/api/products/create", { title, price, description })
-            .then(res => console.log("Response: ", res))
-            // .then(res => setQuery(res.data))
-            .catch(err => console.log("Error:", err));
-        setTitle("");
-        setPrice();
-        setDescription("");
+        onSubmitProp({title, price, description});
+        setTitle(initTitle);
+        setPrice(initPrice);
+        setDescription(initDescription);
     }
 
     return (
@@ -44,7 +39,7 @@ const ProductForm = () => {
                     value={description}
                     onChange={e => { setDescription(e.target.value) }} />
             </div>
-            <input className="btn btn-danger" type="submit" value="Create" />
+            <input className={buttonClass} type="submit" value={buttonName} />
         </form>
     )
 }

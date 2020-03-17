@@ -13,7 +13,16 @@ const Main = () => {
                 setLoaded(true);
             })
             .catch(err => console.log("Error: ", err))
-    }, [products]);
+    }, []);
+
+    const createPerson = product => {
+        axios.post("http://localhost:8000/api/products/create", product)
+            .then(res => {
+                console.log("Response: ", res);
+                setProducts([...products, res.data]);
+            })
+            .catch(err => console.log("Error:", err));
+    }
 
     const removeFromDom = productId => {
         setProducts(products.filter(product => product._id !== productId))
@@ -21,7 +30,12 @@ const Main = () => {
 
     return(
         <div className="col-7 mx-auto">
-            <ProductForm />
+            <ProductForm onSubmitProp={createPerson} 
+                initTitle=""
+                initPrice={0}
+                initDescription=""
+                buttonName="Create"
+                buttonClass="btn btn-success"/>
             <br />
             {loaded && <ProductList products={products} removeFromDom={removeFromDom}/>}
         </div>

@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { navigate } from '@reach/router';
+import Delete from '../components/Delete';
 
-const Detail = props => {
+const Detail = ({removeFromDom, id}) => {
+    const [loaded, setLoaded] = useState(false);
     const style = {
         fontWeight: 'bold'
     }
     const [product, setProduct] = useState({});
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/products/${props.id}`)
-            .then(res => setProduct({...res.data}))
+        axios.get(`http://localhost:8000/api/products/${id}`)
+            .then(res => {
+                setProduct({...res.data});
+                setLoaded(!loaded);
+            })
     }, [])
 
     const onEditHandler = e => {
         e.preventDefault();
         navigate(`/${product._id}/edit`);
-    }
-
-    const onDeleteHandler = productId => {
-        axios.delete(`http://localhost:8000/api/products/delete/${productId}`)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        navigate("/");
     }
 
     return(
@@ -30,7 +28,7 @@ const Detail = props => {
             <h4><span style={style}>Price:</span> ${product.price}</h4>
             <h4><span style={style}>Description:</span> {product.description}</h4>
             <button className="btn btn-dark" onClick={onEditHandler}>Edit</button>
-            <button className="btn btn-danger" onClick={e => onDeleteHandler(product._id)}>Delete</button>
+            <Delete productId={product._id} removeFromDom={removeFromDom}/>
         </div>
     )
 }
